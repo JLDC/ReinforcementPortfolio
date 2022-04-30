@@ -64,17 +64,6 @@ function RLBase.update!(
             surr₂ = clamp.(ratio, 1f0 - p.ϵ, 1f0 + p.ϵ) .* Â
             -mean(min.(surr₁, surr₂))
         end
-        # clip_gradients!(∇, 1f-3)
-        # mn = Inf
-        # mx = -Inf
-        # for g in ∇
-        #     mnt = minimum(g)
-        #     mxt = maximum(g)
-        #     mn = mnt < mn ? mnt : mn
-        #     mx = mxt > mx ? mxt : mx
-        # end
-        # println("Iteration $i")
-        # println("(", round(mn, digits=5), ", ", round(mx, digits=5), ")")
         update!(m, ∇)
     end
 end
