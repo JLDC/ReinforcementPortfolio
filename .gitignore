@@ -31,5 +31,6 @@ results/
 
 # Stuff currently under progress
 src/asset_simulators/FactorSimulator.jl
+src/environments/OracleEnv.jl
 # Testing stuff
 test*.jl

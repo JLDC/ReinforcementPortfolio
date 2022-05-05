@@ -14,6 +14,7 @@ using UnPack
 export GPEnv, calibrate_gp, GPSVEnv, calibrate_gpsv,
     create_ddpg_agent, create_sac_agent, create_vpg_agent, create_ppo_agent,
     BuyAndHold, UniformBuyAndHold,
+    PAMR, PAMR1, PAMR2,
     evaluate_policy, 
     ReturnReward, SharpeReward
 
@@ -37,6 +38,7 @@ include("environments/OracleEnv.jl")
 # Policies
 include("policies/olps/BuyAndHold.jl")
 include("policies/olps/ConstantlyRebalanced.jl")
+include("policies/olps/PAMR.jl")
 include("policies/drl/VPG.jl")
 include("policies/drl/DDPG.jl")
 include("policies/drl/SAC.jl")

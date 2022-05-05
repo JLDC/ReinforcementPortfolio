@@ -3,9 +3,9 @@ abstract type SimulatorEnv <: AbstractEnv end
 uniform_weights(env::SimulatorEnv) = uniform_weights(nassets(env))
 init_weights(env::SimulatorEnv) = uniform_weights(env) # TODO: Initial weights -> uniform weights for now
 logreturns(env::SimulatorEnv) = env.r[:, env.t]
-mean_logreturns(env::SimulatorEnv) = mean(env.r[:, 1:env.t], dims=2) |> vec
+logreturns(env::SimulatorEnv, t::Int) = env.r[:, t]
 returns(env::SimulatorEnv) = exp.(logreturns(env))
-mean_returns(env::SimulatorEnv) = mean(exp.(env.r[:, 1:env.t]), dims=2) |> vec
+returns(env::SimulatorEnv, t::Int) = exp.(logreturns(env, t))
 is_firststep(env::SimulatorEnv) = env.t == 1
 
 
