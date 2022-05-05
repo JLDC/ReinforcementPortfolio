@@ -8,8 +8,8 @@ function create_ppo_agent(
     batchsize::Int=32,
     activation=relu
 )
-    na = nassets(env)
-    in_size = size(env.f ,1)
+    in_size = length(state(env))
+    out_size = nassets(env)
     Agent(
         policy = PPO(
             approximator = NeuralNetworkApproximator(
@@ -17,12 +17,12 @@ function create_ppo_agent(
                     μ = Chain(
                         Dense(in_size, hidden_size, activation),
                         Dense(hidden_size, hidden_size, activation),
-                        Dense(hidden_size, na, identity)
+                        Dense(hidden_size, out_size, identity)
                     ),
                     logσ = Chain(
                         Dense(in_size, hidden_size, activation),
                         Dense(hidden_size, hidden_size, activation),
-                        Dense(hidden_size, na, identity)
+                        Dense(hidden_size, out_size, identity)
                     ),
                     max_σ = 5f-1,
                     normalizer = tanh

@@ -53,22 +53,37 @@ function RLBase.update!(
         ∇ = gradient(Flux.params(b)) do
             mean((G .- b(S)).^2)
         end
-        # clip_gradients!(∇, 1f-3)
         update!(b, ∇)
+        checknans(∇) && error("NaNs encountered")
         Â = G - b(S) # Compute advantage estimate
         # Update actor
         ∇ = gradient(Flux.params(m)) do
             logp′ = m(S, A)
-            ratio = exp.(logp′ .- logp)
+            ratio = clamp.(exp.(logp′ .- logp), 1f0 - p.ϵ, 1f0 + p.ϵ)
+            if any(isinf.(ratio)) || any(isnan.(ratio))
+                println(ratio)
+                println(logp′)
+                println(logp)
+                println("------")
+                println(S)
+                println("------")
+                println(A)
+                error("Inf ratio")
+            end
             surr₁ = ratio .* Â
             surr₂ = clamp.(ratio, 1f0 - p.ϵ, 1f0 + p.ϵ) .* Â
             -mean(min.(surr₁, surr₂))
         end
+        if checknans(∇)
+            println(S)
+            println("-----")
+            println(A)
+            println("-----")
+            println(logp)
+            println("-----")
+            println(m(S, A))
+            error("NaNs encountered")
+        end
         update!(m, ∇)
     end
-end
-
-function clip_gradients!(∇, ϵ)
-    map(x -> clamp!(x, -ϵ, ϵ), ∇)
-    nothing
 end

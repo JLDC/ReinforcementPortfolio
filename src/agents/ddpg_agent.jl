@@ -14,7 +14,7 @@ function create_ddpg_agent(
     start_policy=RandomPolicy()
 )
     out_size = nassets(env)
-    in_size = size(env.f, 1)
+    in_size = length(state(env))
     # Actor networks
     behavior_actor = NeuralNetworkApproximator(
         model = Chain(

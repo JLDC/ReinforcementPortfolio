@@ -28,3 +28,8 @@ data/
 results/
 *.jld
 .vscode/
+
+# Stuff currently under progress
+src/asset_simulators/FactorSimulator.jl
+# Testing stuff
+test*.jl

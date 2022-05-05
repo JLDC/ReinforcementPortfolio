@@ -21,7 +21,10 @@ end
 nfactors(sim::GPSimulator) = length(sim.μ_f₀)
 nassets(sim::GPSimulator) = length(sim.S₀)
 
-function simulate_economy(sim::GPSimulator, T::Int=500; rng::Union{AbstractRNG,Nothing}=nothing)
+function simulate_economy(
+    sim::GPSimulator, T::Int=500; 
+    rng::Union{AbstractRNG,Nothing}=nothing
+)
     rng = isnothing(rng) ? Random.GLOBAL_RNG : rng
     @assert T > 1 "T must be larger than 1"
     @unpack S₀, μ_f₀, σ_f₀, B, Σ, Ψ, Φ = sim

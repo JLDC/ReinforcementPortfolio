@@ -1,5 +1,6 @@
 module ReinforcementPortfolio
 
+using ARCHModels
 using DataFrames
 using Distributions
 using Flux
@@ -10,7 +11,7 @@ using Setfield
 using Statistics
 using UnPack
 
-export GPEnv, calibrate_gp, 
+export GPEnv, calibrate_gp, GPSVEnv, calibrate_gpsv,
     create_ddpg_agent, create_sac_agent, create_vpg_agent, create_ppo_agent,
     BuyAndHold, UniformBuyAndHold,
     evaluate_policy, 
@@ -28,9 +29,11 @@ include("utils/CustomLayers.jl")
 # Simulators
 include("asset_simulators/GBMSimulator.jl")
 include("asset_simulators/GPSimulator.jl")
+include("asset_simulators/GPSVSimulator.jl")
 # Environments
 include("environments/GBMEnv.jl")
 include("environments/GPEnv.jl")
+include("environments/OracleEnv.jl")
 # Policies
 include("policies/olps/BuyAndHold.jl")
 include("policies/olps/ConstantlyRebalanced.jl")

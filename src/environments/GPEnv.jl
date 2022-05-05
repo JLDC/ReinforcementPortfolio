@@ -1,16 +1,16 @@
 mutable struct GPEnv <: SimulatorEnv
-    sim::GPSimulator                    # Simulator
-    t::Int                              # Current timestep
-    T::Int                              # Max. timestep
-    w::Vector{Float32}                  # Current portfolio weights
-    fee::Float32                        # Flat transaction fee
-    reward::Float32                     # Instantaneous reward
-    returns::Vector{Float32}            # Past log-returns
-    S::Matrix{Float32}                  # Path of prices
-    r::Matrix{Float32}                  # Path of log-returns
-    f::Matrix{Float32}                  # Path of features
-    actions::Vector{Vector{Float32}}    # Past actions (before simplex projection)
-    reward_style::RewardStyle           # Reward function
+    sim::Union{GPSimulator,GPSVSimulator}   # Simulator
+    t::Int                                  # Current timestep
+    T::Int                                  # Max. timestep
+    w::Vector{Float32}                      # Current portfolio weights
+    fee::Float32                            # Flat transaction fee
+    reward::Float32                         # Instantaneous reward
+    returns::Vector{Float32}                # Past log-returns
+    S::Matrix{Float32}                      # Path of prices
+    r::Matrix{Float32}                      # Path of log-returns
+    f::Matrix{Float32}                      # Path of features
+    actions::Vector{Vector{Float32}}        # Past actions (before simplex projection)
+    reward_style::RewardStyle               # Reward function
     function GPEnv(sim, T, fee, reward_style)
         S, r, f = simulate_economy(sim, T)       # simulate_economy prices & features for the environment
         w = uniform_weights(nassets(sim))
@@ -19,6 +19,7 @@ mutable struct GPEnv <: SimulatorEnv
 end
 
 nfactors(env::GPEnv) = nfactors(env.sim)
+nassets(env::GPEnv) = nassets(env.sim)
 
 RLBase.state(env::GPEnv) = vcat(env.f[nassets(env)+1:end, env.t], env.w)
     

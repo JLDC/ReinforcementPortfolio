@@ -44,3 +44,5 @@ function add_factors(df::DataFrame)
     df[!, :ΔfY] = vcat(0, diff(df.fY))
     df = df[253:end, :] # Drop superfluous observations
 end
+
+checknans(gs) = any([any(isnan.(g)) for g ∈ gs])
