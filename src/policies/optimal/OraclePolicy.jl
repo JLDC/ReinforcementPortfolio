@@ -1,18 +1,14 @@
-using Ipopt
-using JuMP
-using LinearAlgebra
-using UnPack
-
-@Base.kwdef mutable struct LQCPolicy <: AbstractPolicy
+@Base.kwdef mutable struct OraclePolicy <: AbstractPolicy
     w::Union{Nothing, AbstractMatrix} = nothing
     verbose::Bool = false
 end
 
-function (p::LQCPolicy)(::PreEpisodeStage, env::SimulatorEnv)
+function (p::OraclePolicy)(::PreEpisodeStage, env::SimulatorEnv)
     @unpack sim, T, fee, w, f = env
-    @unpack B, Φ, Σ, Ψ = sim
+    @unpack B = sim
     @unpack verbose = p
     N = nassets(env)
+    # Store B*f to simplify computations in the objective
     Bf = [exp.(B*f[:, t]) for t ∈ 1:size(f, 2)]
     pf_model = Model(Ipopt.Optimizer)
     verbose || set_optimizer_attribute(pf_model, "print_level", 0)
@@ -22,9 +18,9 @@ function (p::LQCPolicy)(::PreEpisodeStage, env::SimulatorEnv)
     @constraint(pf_model, [t ∈ 1:T], sum(x[:, t]) == 1)
     # Cost function
     @NLobjective(pf_model, Max,
-        sum(x[i, 1] * Bf[1][i] for i ∈ 1:N) * (1 - fee * sum(abs(x[i, 1] - w[i]) for i ∈ 1:N)) +
+        log(sum(x[i, 1] * Bf[1][i] for i ∈ 1:N) * (1 - fee * sum(abs(x[i, 1] - w[i]) for i ∈ 1:N))) +
         sum(
-            sum(x[i, t] * Bf[t][i] for i ∈ 1:N) * (1 - fee * sum(abs(x[i, t] - x[i, t-1]) for i ∈ 1:N))
+            log(sum(x[i, t] * Bf[t][i] for i ∈ 1:N) * (1 - fee * sum(abs(x[i, t] - x[i, t-1]) for i ∈ 1:N)))
             for t ∈ 2:T
         )
     )
@@ -33,12 +29,10 @@ function (p::LQCPolicy)(::PreEpisodeStage, env::SimulatorEnv)
     p.w = value.(x)
 end
 
-
-
-(p::LQCPolicy)(env::SimulatorEnv) = p.w[:, env.t]
+(p::OraclePolicy)(env::SimulatorEnv) = p.w[:, env.t]
 
 function RLBase.update!(
-    p::LQCPolicy,
+    p::OraclePolicy,
     ::AbstractTrajectory,
     env::SimulatorEnv,
     stage::PreEpisodeStage
