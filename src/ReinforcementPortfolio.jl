@@ -40,7 +40,7 @@ include("asset_simulators/GPSVSimulator.jl")
 # Environments
 include("environments/GBMEnv.jl")
 include("environments/GPEnv.jl")
-include("environments/OracleEnv.jl")
+# include("environments/OracleEnv.jl")
 # Policies
 #   - OLPS
 include("policies/olps/BuyAndHold.jl")
