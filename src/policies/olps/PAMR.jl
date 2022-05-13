@@ -1,23 +1,51 @@
+"""
+    PAMRPolicy
+
+Abstract type for Passive Aggressive Mean Reversion strategies.
+
+Reference:
+        B. Li, P. Zhao, S. C.H. Hoi, and V. Gopalkrishnan.
+        Pamr: Passive aggressive mean reversion strategy for portfolio selection, 2012.
+        https://link.springer.com/content/pdf/10.1007/s10994-012-5281-z.pdf
+"""
 abstract type PAMRPolicy <: AbstractPolicy end
 
+"""
+    PAMR(w, ϵ, freq)
+
+Original Passive Aggressive Mean Reversion strategy. See 
+[`PAMRPolicy`](@ref ReinforcementPortfolio.PAMRPolicy).
+"""
 @Base.kwdef mutable struct PAMR{T<:AbstractFloat} <: PAMRPolicy
     w::Vector{T}
     ϵ::T
-    rebalancing_freq::Int = 30
+    freq::Int = 30
 end
 
+"""
+    PAMR1(w, ϵ, C, freq)
+
+First variant of the Passive Aggressive Mean Reversion strategy. See 
+[`PAMRPolicy`](@ref ReinforcementPortfolio.PAMRPolicy).
+"""
 @Base.kwdef mutable struct PAMR1{T<:AbstractFloat} <: PAMRPolicy
     w::Vector{T}
     ϵ::T
-    C::Float32
-    rebalancing_freq::Int = 30
+    C::T
+    freq::Int = 30
 end
 
+"""
+    PAMR2(w, ϵ, C, freq)
+
+Second variant of the Passive Aggressive Mean Reversion strategy. See 
+[`PAMRPolicy`](@ref ReinforcementPortfolio.PAMRPolicy).
+"""
 @Base.kwdef mutable struct PAMR2{T<:AbstractFloat} <: PAMRPolicy
     w::Vector{T}
     ϵ::T
-    C::Float32
-    rebalancing_freq::Int = 30
+    C::T
+    freq::Int = 30
 end
 
 # Loss (same for all PAMR policies)
@@ -30,7 +58,7 @@ function (p::PAMRPolicy)(env::SimulatorEnv)
     if is_firststep(env) # First step no relative price vector
         p.w = uniform_weights(env)
         p.w
-    elseif env.t % p.rebalancing_freq == 0
+    elseif env.t % p.freq == 0
         # Update portfolio weights according to PAMR strategy
         x̄ = mean(returns(env, env.t - 1))
         x = returns(env, env.t - 1)

@@ -9,4 +9,10 @@ end
 # On first step allocate wealth and then return the current environment portfolio
 (p::BuyAndHold)(env::SimulatorEnv) = is_firststep(env) ? p.w : env.w
 
+"""
+    UniformBuyAndHold(env)
+
+Creates a uniform [`BuyAndHold`](@ref ReinforcementPortfolio.BuyAndHold) strategy for the 
+given environment `env`.
+"""
 UniformBuyAndHold(env::SimulatorEnv) = BuyAndHold(uniform_weights(env))

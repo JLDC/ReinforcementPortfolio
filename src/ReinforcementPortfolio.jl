@@ -18,7 +18,9 @@ using UnPack
 export GPEnv, calibrate_gp, GPSVEnv, calibrate_gpsv,
     create_ddpg_agent, create_sac_agent, create_vpg_agent, create_ppo_agent,
     BuyAndHold, UniformBuyAndHold,
-    PAMR, PAMR1, PAMR2,
+    ConstantlyRebalanced, UniformCRP,
+    PAMRPolicy, PAMR, PAMR1, PAMR2,
+    DeterministicPolicy, OraclePolicy,
     evaluate_policy, 
     ReturnReward, SharpeReward
 

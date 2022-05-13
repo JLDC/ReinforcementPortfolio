@@ -18,7 +18,7 @@ function FGLS(X, y, ϵ=1e-10, max_iter=25)
         else
             σ̂₁ = σ̂₂
             Ω̂_inv = inv(diagm(σ̂₁))
-            β̂_fgls = inv(X'Ω̂_inv*X)*X'Ω̂_inv*y
+            β̂_fgls = pinv(X'Ω̂_inv*X)*X'Ω̂_inv*y # TODO: pseudoinverse?
         end
     end
     @warn "No convergence reached"

@@ -48,7 +48,7 @@ function calibrate_gpsv(df::DataFrame)
     Ψ = Float32.(cov(f[:, N+1:end]))
     df[!, :u] = df.ret - X*β̂
     # Calibrate DCC on residuals
-    dcc = fit(DCC{1, 1, EGARCH{1, 1, 1}}, 
+    dcc = fit(DCC{1, 1, GARCH{1, 1}}, 
         hcat([df.u[df.ticker .== ticker] for ticker ∈ tickers]...), meanspec=NoIntercept)
     GPSVSimulator(S₀, μ_f₀, σ_f₀, B, Ψ, Φ, dcc)
 end
