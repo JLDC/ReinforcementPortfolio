@@ -1,9 +1,33 @@
 """
-    GPSimulator
+    GPSimulator(S₀, μ_f₀, σ_f₀, B, Σ, Ψ, Φ)
 
-An asset simulator where the prices follow the model of Gârleanu & Pedersen (2013).
+An asset simulator where the prices follow a model similar to that of [Gârleanu & Pedersen 
+(2013)](https://onlinelibrary.wiley.com/doi/abs/10.1111/jofi.12080)
+
+The asset log returns adopt the following multidimensional factor model with ``N`` assets 
+and ``K`` factors:
+
+```math
+\\begin{aligned}
+\\mathbf{r}_{t+1} &= \\mathbf{B}\\mathbf{f}_t + \\mathbf{u}_{t+1} \\\\
+\\mathbf{f}_{t+1} &= \\left(\\mathbf{I} - \\boldsymbol{\\Phi}\\right) \\mathbf{f}_t + \\boldsymbol{\\epsilon}_{t+1}.
+\\end{aligned}
+```
+
+with
+
+- ``\\mathbf{B} \\in \\mathbb{R}^{N \\times K}`` the matrix of factor loadings.
+- ``\\boldsymbol{\\Phi} \\in \\mathbb{R}^{K \\times K}`` the matrix of mean-reversion coefficients 
+- ``\\mathbf{u}_t \\sim \\mathcal{N}(\\mathbf{0}, \\boldsymbol{\\Sigma})`` the returns innovation term
+- ``\\boldsymbol{\\epsilon}_t \\sim \\mathcal{N}(\\mathbf{0}, \\boldsymbol{\\Psi})`` the factors innovation term
+
+When an economy is simulated according to the `GPSimulator`, the initial factors 
+``\\mathbf{f}_0`` are randomized according to a normal distribution with mean `μ_f₀` and
+standard deviation `σ_f₀`. It is assumed that the initial factor distribution is made of
+independent normal distributions, i.e. `σ_f₀` is a vector of standard deviations and not
+the covariance matrix (it is the diagonal of the covariance matrix).
 """
-mutable struct GPSimulator{T<:AbstractFloat}
+mutable struct GPSimulator{T<:AbstractFloat} <: AssetSimulator
     S₀::AbstractVector{T}       # Initial asset prices
     μ_f₀::AbstractVector{T}     # Initial factors means
     σ_f₀::AbstractVector{T}     # Initial factors standard dev.
@@ -19,8 +43,12 @@ mutable struct GPSimulator{T<:AbstractFloat}
 end
 
 nfactors(sim::GPSimulator) = length(sim.μ_f₀)
-nassets(sim::GPSimulator) = length(sim.S₀)
 
+"""
+    simulate_economy(sim, T = 500; rng = nothing)
+
+Simulates `T` periods of an economy according to the dynamics of the simulator `sim`.
+"""
 function simulate_economy(
     sim::GPSimulator, T::Int=500; 
     rng::Union{AbstractRNG,Nothing}=nothing

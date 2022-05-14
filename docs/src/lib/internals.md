@@ -6,7 +6,9 @@ Pages = ["internals.md"]
 ```
 
 ## Internals Interface
-```@autodocs
-Modules = [ReinforcementPortfolio]
-Public = false
+
+### Asset Simulators & Environments
+```@docs
+AssetSimulator
+SimulatorEnv
 ```

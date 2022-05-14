@@ -1,3 +1,3 @@
 # ReinforcementPortfolio.jl
 
-Documentation for ReinforcementPortfolio.jl
+[ReinforcementPortfolio.jl](https://github.com/JLDC/ReinforcementPortfolio) provides a framework to apply deep reinforcement learning methods to portfolio management. The reinforcement learning components are implemented through the [ReinforcementLearning.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl) package to make them as general as possible.

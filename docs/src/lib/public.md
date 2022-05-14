@@ -7,6 +7,8 @@ Pages = ["public.md"]
 
 ## Public Interface
 
+
+
 ### Online Portfolio Selection Strategies
 ```@docs
 BuyAndHold
@@ -18,9 +20,3 @@ PAMR
 PAMR1
 PAMR2
 ```
-
-<!-- ### *Optimal* Strategies
-```@docs
-DeterministicPolicy
-OraclePolicy
-``` -->

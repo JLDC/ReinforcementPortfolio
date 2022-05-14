@@ -1,4 +1,4 @@
-mutable struct GPSVSimulator{T<:AbstractFloat}
+mutable struct GPSVSimulator{T<:AbstractFloat} <: AssetSimulator
     S₀::AbstractVector{T}
     μ_f₀::AbstractVector{T}
     σ_f₀::AbstractVector{T}

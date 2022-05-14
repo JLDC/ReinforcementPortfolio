@@ -1,3 +1,9 @@
+"""
+    SimulatorEnv <: AbstractEnv
+
+Abstract supertype for reinforcement learning environments which are based on an
+[`AssetSimulator`](@ref ReinforcementPortfolio.AssetSimulator)
+"""
 abstract type SimulatorEnv <: AbstractEnv end
 
 uniform_weights(env::SimulatorEnv) = uniform_weights(nassets(env))

@@ -11,7 +11,7 @@ Reference:
 abstract type PAMRPolicy <: AbstractPolicy end
 
 """
-    PAMR(w, ϵ, freq)
+    PAMR(w, ϵ, freq = 30)
 
 Original Passive Aggressive Mean Reversion strategy. See 
 [`PAMRPolicy`](@ref ReinforcementPortfolio.PAMRPolicy).
@@ -23,7 +23,7 @@ Original Passive Aggressive Mean Reversion strategy. See
 end
 
 """
-    PAMR1(w, ϵ, C, freq)
+    PAMR1(w, ϵ, C, freq = 30)
 
 First variant of the Passive Aggressive Mean Reversion strategy. See 
 [`PAMRPolicy`](@ref ReinforcementPortfolio.PAMRPolicy).
@@ -36,7 +36,7 @@ First variant of the Passive Aggressive Mean Reversion strategy. See
 end
 
 """
-    PAMR2(w, ϵ, C, freq)
+    PAMR2(w, ϵ, C, freq = 30)
 
 Second variant of the Passive Aggressive Mean Reversion strategy. See 
 [`PAMRPolicy`](@ref ReinforcementPortfolio.PAMRPolicy).

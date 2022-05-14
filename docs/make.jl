@@ -6,7 +6,12 @@ makedocs(
     format = Documenter.HTML(),
     modules = [ReinforcementPortfolio],
     pages = [
-        "Home" => "index.md"
+        "Home" => "index.md",
+        "Portfolio Management" => "pm/index.md",
+        "Simulators and Environments" => [
+            "Asset Simulators" => "env/asset_sim.md",
+            "Simulator Environment" => "env/sim_env.md"
+        ],
         "Library" => [
             "Public" => "lib/public.md",
             "Internals" => "lib/internals.md" 
