@@ -12,10 +12,10 @@ makedocs(
             "Asset Simulators" => "env/asset_sim.md",
             "Simulator Environment" => "env/sim_env.md"
         ],
-        "Library" => [
-            "Public" => "lib/public.md",
-            "Internals" => "lib/internals.md" 
-        ]
+        # "Library" => [
+        #     "Public" => "lib/public.md",
+        #     "Internals" => "lib/internals.md" 
+        # ]
     ]
 )
 

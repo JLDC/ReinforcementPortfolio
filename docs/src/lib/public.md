@@ -7,7 +7,9 @@ Pages = ["public.md"]
 
 ## Public Interface
 
-
+```@docs
+RewardStyle
+```
 
 ### Online Portfolio Selection Strategies
 ```@docs

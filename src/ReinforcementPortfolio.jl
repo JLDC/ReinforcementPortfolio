@@ -15,7 +15,7 @@ using UnPack
 
 
 
-export AssetSimulator, nassets,
+export nassets,
     GPSimulator,
     SimulatorEnv, simulate_economy,
     GPEnv, calibrate_gp, GPSVEnv, calibrate_gpsv,
@@ -29,20 +29,19 @@ export AssetSimulator, nassets,
 
 # Abstract types
 include("asset_simulators/AssetSimulator.jl")
-include("environments/SimulatorEnv.jl")
-# Generic helpers
+# Main helpers
 include("utils/utils.jl")
 include("utils/SimplexSpace.jl")
-include("utils/policy_evaluation.jl")
 include("utils/RewardStyle.jl")
 include("utils/CustomLayers.jl")
 # Simulators
-include("asset_simulators/GBMSimulator.jl")
+# include("asset_simulators/GBMSimulator.jl")
 include("asset_simulators/GPSimulator.jl")
 include("asset_simulators/GPSVSimulator.jl")
 # Environments
-include("environments/GBMEnv.jl")
-include("environments/GPEnv.jl")
+include("environments/SimulatorEnv.jl")
+# include("environments/GBMEnv.jl")
+# include("environments/GPEnv.jl")
 # include("environments/OracleEnv.jl")
 # Policies
 #   - OLPS
@@ -57,6 +56,8 @@ include("policies/drl/PPO.jl")
 #   - Oracle / optimal
 include("policies/optimal/DeterministicPolicy.jl")
 include("policies/optimal/OraclePolicy.jl")
+#   - Policy evaluation
+include("utils/policy_evaluation.jl")
 # Agent builders
 include("agents/vpg_agent.jl")
 include("agents/ddpg_agent.jl")

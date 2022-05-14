@@ -15,8 +15,6 @@ struct GBMSimulator{T<:AbstractFloat} <: AssetSimulator
     end
 end
 
-nassets(sim::GBMSimulator) = length(sim.S₀)
-
 function simulate_economy(sim::GBMSimulator, T::Int=500; rng::Union{AbstractRNG,Nothing}=nothing)
     rng = isnothing(rng) ? Random.GLOBAL_RNG : rng
     @unpack S₀, μ, σ, ρ = sim
