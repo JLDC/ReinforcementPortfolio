@@ -15,10 +15,9 @@ using UnPack
 
 
 
-export nassets,
-    GPSimulator,
-    SimulatorEnv, simulate_economy,
-    GPEnv, calibrate_gp, GPSVEnv, calibrate_gpsv,
+export GPSimulator, GPSVSimulator, 
+    calibrate_gp, calibrate_gpsv, simulate_economy,
+    SimulatorEnv, nassets, nfactors, uniform_weights,
     create_ddpg_agent, create_sac_agent, create_vpg_agent, create_ppo_agent,
     BuyAndHold, UniformBuyAndHold,
     ConstantlyRebalanced, UniformCRP,

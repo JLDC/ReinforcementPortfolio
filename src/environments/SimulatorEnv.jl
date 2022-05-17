@@ -52,21 +52,51 @@ Equally weighted portfolio allocation vector for the environment `env`.
 """
 uniform_weights(env::SimulatorEnv) = uniform_weights(nassets(env))
 init_weights(env::SimulatorEnv) = uniform_weights(env) # TODO: Initial weights -> uniform weights for now
+
+"""
+    logreturns(env)
+
+Extracts the log returns at the current timestep from the environment `env`.
+"""
 logreturns(env::SimulatorEnv) = env.r[:, env.t]
+
+"""
+    logreturns(env, t)
+
+Extracts the log returns at timestep `t` from the environment `env`.
+"""
 logreturns(env::SimulatorEnv, t::Int) = env.r[:, t]
+
+"""
+    returns(env)
+
+Extracts the percentage returns at the current timestep from the environment `env`.
+"""
 returns(env::SimulatorEnv) = exp.(logreturns(env))
+
+"""
+    returns(env, t)
+
+Extracts the percentage returns at timestep `t` from the environment `env`.
+"""
 returns(env::SimulatorEnv, t::Int) = exp.(logreturns(env, t))
+
+"""
+    is_firststep(env)
+
+Returns a boolean indicating whether the current timestep of the environment `env` is
+the first timestep.
+"""
 is_firststep(env::SimulatorEnv) = env.t == 1
 
 
+# Standard necessary RL functions of the environment
 RLBase.is_terminated(env::SimulatorEnv) = env.t ≥ env.T
 RLBase.action_space(env::SimulatorEnv) = SimplexSpace(nassets(env))
 RLBase.state_space(env::SimulatorEnv) = StateSpace() # TODO
 RLBase.reward(env::SimulatorEnv) = env.reward
 RLBase.state(env::SimulatorEnv) = vcat(env.f[nassets(env)+1:end, env.t], env.w)
     
-# (f=env.f[nassets(env)+1:end, env.t], w=env.w)
-
 function RLBase.reset!(env::SimulatorEnv)
     env.t = 1
     env.S, env.r, env.f = simulate_economy(env.sim, env.T)

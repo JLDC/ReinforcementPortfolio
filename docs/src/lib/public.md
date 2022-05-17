@@ -9,16 +9,7 @@ Pages = ["public.md"]
 
 ```@docs
 RewardStyle
-```
-
-### Online Portfolio Selection Strategies
-```@docs
-BuyAndHold
-UniformBuyAndHold
-ConstantlyRebalanced
-UniformCRP
-PAMRPolicy
-PAMR
-PAMR1
-PAMR2
+nassets
+nfactors
+uniform_weights
 ```

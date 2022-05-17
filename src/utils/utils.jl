@@ -1,3 +1,8 @@
+"""
+    uniform_weights(n::Int)
+
+Equally weighted portfolio allocation vector for `n` assets.
+"""
 uniform_weights(n::Int) = ones(Float32, n) / n
 ispossemidef(A) = minimum(eigvals(A)) ≥ 0
 sharpe_ratio(x) = mean(x) / std(x)

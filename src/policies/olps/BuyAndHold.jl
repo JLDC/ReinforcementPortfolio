@@ -1,5 +1,5 @@
 """
-    BuyAndHold <: AbstractPolicy
+    BuyAndHold(w) <: AbstractPolicy
 
 Buy and hold strategy. Buy some amount of stock `w` and hold them forever.
 """

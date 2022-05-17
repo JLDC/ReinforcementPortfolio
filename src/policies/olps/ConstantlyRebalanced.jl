@@ -1,5 +1,5 @@
 """
-    ConstantlyRebalanced <: AbstractPolicy
+    ConstantlyRebalanced(w, freq) <: AbstractPolicy
 
 Constantly rebalanced portfolio. Reallocates to fixed weights `w` at chosen frequency `freq`.
 """

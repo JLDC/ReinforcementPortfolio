@@ -12,10 +12,21 @@ makedocs(
             "Asset Simulators" => "env/asset_sim.md",
             "Simulator Environment" => "env/sim_env.md"
         ],
-        # "Library" => [
-        #     "Public" => "lib/public.md",
-        #     "Internals" => "lib/internals.md" 
-        # ]
+        "Policies and Agents" => [
+            "Policies" => [
+                "Policies" => "policies/index.md",
+                "Online Portfolio Selection" => "policies/olps.md",
+                "Optimal" => "policies/optimal.md",
+                "Deep Reinforcement Learning" => "policies/drl.md"
+            ],
+            "Agents" => [
+
+            ],
+        ],
+        "Library" => [
+            "Public" => "lib/public.md",
+            "Internals" => "lib/internals.md" 
+        ]
     ]
 )
 
