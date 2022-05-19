@@ -8,6 +8,7 @@ package.
 - `sim`: An [`AssetSimulator`](@ref ReinforcementPortfolio.AssetSimulator) which governs the asset returns dynamics of the `SimulatorEnv`.
 - `T`: The total timesteps until an episode finishes.
 - `fee`: The broker's percentage fee on each trade.
+- `riskfree_asset`: Whether there exists a risk-free asset (e.g. a cash position)
 - `reward_style`: The type of reward the agent receives when interacting with the environment.
 See [`RewardStyle`](@ref ReinforcementPortfolio.RewardStyle)
 """
@@ -23,11 +24,13 @@ mutable struct SimulatorEnv <: AbstractEnv
     r::Matrix{Float32}                      # Path of log-returns
     f::Matrix{Float32}                      # Path of features
     actions::Vector{Vector{Float32}}        # Past actions (before simplex projection)
+    riskfree_asset::Bool                    # Risk-free asset
     reward_style::RewardStyle               # Reward function
-    function SimulatorEnv(sim, T, fee, reward_style)
-        S, r, f = simulate_economy(sim, T)
-        w = uniform_weights(nassets(sim))
-        new(sim, 1, T, w, fee, 0f0, Float32[], S, r, f, Vector{Float32}[], reward_style)
+    function SimulatorEnv(sim, T, fee, riskfree_asset, reward_style)
+        S, r, f = simulate_economy(sim, T, riskfree_asset=riskfree_asset)
+        w = uniform_weights(nassets(sim)) # TODO: init_weights depending on riskfree asset?
+        new(sim, 1, T, w, fee, 0f0, Float32[], S, r, f, Vector{Float32}[], 
+            riskfree_asset, reward_style)
     end
 end
 
@@ -43,7 +46,7 @@ nfactors(env::SimulatorEnv) = nfactors(env.sim)
 
 Total number of assets for the environment `env`.
 """
-nassets(env::SimulatorEnv) = nassets(env.sim)
+nassets(env::SimulatorEnv) = nassets(env.sim) + env.riskfree_asset
 
 """
     uniform_weights(env)

@@ -2,7 +2,7 @@
 
 Online portfolio selection (OLPS) policies.
 
-## OLPS Policies
+## Policies
 ### Buy-And-Hold
 ```@docs
 BuyAndHold

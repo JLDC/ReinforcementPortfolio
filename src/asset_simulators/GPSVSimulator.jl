@@ -55,7 +55,7 @@ end
 
 function simulate_economy(
     sim::GPSVSimulator, T::Int=500; 
-    rng::Union{AbstractRNG,Nothing}=nothing
+    rng::Union{AbstractRNG,Nothing}=nothing, riskfree_asset::Bool = false
 )
     rng = isnothing(rng) ? Random.GLOBAL_RNG : rng
     @assert T > 1 "T must be larger than 1"
@@ -77,6 +77,11 @@ function simulate_economy(
     for t ∈ 1:T
         r[:, t] = B * f[:, t] + u[:, t]
         f[:, t+1] = (I - Φ) * f[:, t] + ϵ[:, t]
+    end
+    # Add a first row with zero returns for the risk-free asset
+    if riskfree_asset
+        r = vcat(zeros(eltype(r), 1, T), r)
+        S₀ = vcat(1, S₀)
     end
     S = hcat(S₀, S₀ .* exp.(cumsum(r, dims=2)))
     S, r, f # Output returns and factors
